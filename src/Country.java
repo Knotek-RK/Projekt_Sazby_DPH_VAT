@@ -1,17 +1,17 @@
-public class Country {
+public class Country implements Comparable<Country> {
     String name;
     String state;
     Double fullRate;
     Double reducedRate;
-    Boolean usesRate;
+    Boolean specialRate;
 
     public Country(String name, String state, Double fullRate,
-                   Double reducedRate, Boolean usesRate) {
+                   Double reducedRate, Boolean specialRate) {
         this.name = name;
         this.state = state;
         this.fullRate = fullRate;
         this.reducedRate = reducedRate;
-        this.usesRate = usesRate;
+        this.specialRate = specialRate;
     }
 
     public String getName() {
@@ -46,15 +46,21 @@ public class Country {
         this.reducedRate = reducedRate;
     }
 
-    public Boolean getUsesRate() {
-        return usesRate;
+    public Boolean getSpecialRate() {
+        return specialRate;
     }
 
-    public void setUsesRate(Boolean usesRate) {
-        this.usesRate = usesRate;
+    public void setSpecialRate(Boolean specialRate) {
+        this.specialRate = specialRate;
     }
 
     public String toString() {
-        return "\n"+getState()+" ("+getName()+"): "+getFullRate()+" %";
+        return getState()+" ("+getName()+"): "+getFullRate()+" %";
+    }
+
+    // Seřazení podle základní sazby DPH/VAT sestupně
+    @Override
+    public int compareTo(Country secondCountry) {
+        return this.getFullRate().compareTo(secondCountry.getFullRate());
     }
 }
