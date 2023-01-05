@@ -14,5 +14,6 @@ public class Main {
         }
 
         List<Country> countries = register.getCountries();
+        System.out.println(countries);
     }
 }

@@ -53,4 +53,8 @@ public class Country {
     public void setUsesRate(Boolean usesRate) {
         this.usesRate = usesRate;
     }
+
+    public String toString() {
+        return "\n"+getState()+" ("+getName()+"): "+getFullRate()+" %";
+    }
 }

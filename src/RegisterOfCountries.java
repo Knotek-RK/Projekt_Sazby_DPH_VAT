@@ -6,14 +6,22 @@ import java.util.List;
 import java.util.Scanner;
 
 public class RegisterOfCountries {
-//    public static final String DELIMITER = "\t";
+    public static final String DELIMITER = "\t";
 
     private List<Country> countries = new ArrayList<>();
+
+    public void addCountry(Country newCountry) {
+        countries.add(newCountry);
+    }
+
+    public List<Country> getCountries() {
+        return new ArrayList<>(countries);
+    }
 
     public void readCountriesFromFile(String filename) throws CountryException {
         String nextLine = null;
         String[] countries = new String[0];
-
+        Country newCountry;
         String name = null;
         String state = null;
         Double fullRate = null;
@@ -34,6 +42,8 @@ public class RegisterOfCountries {
                 reducedRate = Double.parseDouble(countries[3]);
                 usesRate = Boolean.getBoolean(countries[4]);
 
+                newCountry = new Country(name, state, fullRate, reducedRate, usesRate);
+                addCountry(newCountry);
             }
         } catch (FileNotFoundException e) {
             throw new CountryException(
