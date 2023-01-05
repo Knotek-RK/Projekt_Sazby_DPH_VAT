@@ -26,7 +26,7 @@ public class RegisterOfCountries {
         String state = null;
         Double fullRate = null;
         Double reducedRate = null;
-        Boolean usesRate = null;
+        Boolean specialRate = null;
 
         int lineNumber = 0;
         String separator = "\t";
@@ -40,9 +40,9 @@ public class RegisterOfCountries {
                 state = countries[1];
                 fullRate = Double.parseDouble(countries[2]);
                 reducedRate = Double.parseDouble(countries[3]);
-                usesRate = Boolean.getBoolean(countries[4]);
+                specialRate = Boolean.getBoolean(countries[4]);
 
-                newCountry = new Country(name, state, fullRate, reducedRate, usesRate);
+                newCountry = new Country(name, state, fullRate, reducedRate, specialRate);
                 addCountry(newCountry);
             }
         } catch (FileNotFoundException e) {

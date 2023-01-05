@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -14,6 +16,25 @@ public class Main {
         }
 
         List<Country> countries = register.getCountries();
-        System.out.println(countries);
+
+        System.out.println("Seznam států s hodnotou základní sazby daně:");
+        countries.forEach(System.out::println);
+//        System.out.println(countries);
+
+        ///region - Seřazení podle základní sazby DPH/VAT sestupně
+        System.out.println("---------------------------\n"+
+                "Seřazení států, které mají základní sazbu z daně z přidané hodnoty vyšší než 20% \n" +
+                "a nepoužívají speciální sazbu daně. (Řazení je sestupně podle výše základní sazby):");
+        Collections.sort(countries, Collections.reverseOrder());
+        List<Country> unusedstates = new ArrayList<>();
+        for (Country country : countries) {
+            if (country.getFullRate() > 20 && !country.getSpecialRate()) {
+                String line = country+" ("+country.getReducedRate()+")";
+                System.out.println(line);
+                unusedstates.add(country);
+            }
+        }
+        ///endregion
+
     }
 }
