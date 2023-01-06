@@ -1,12 +1,11 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class RegisterOfCountries {
-    public static final String DELIMITER = "\t";
+//    public static final String DELIMITER = "\t";
 
     private List<Country> countries = new ArrayList<>();
 
@@ -48,6 +47,40 @@ public class RegisterOfCountries {
         } catch (FileNotFoundException e) {
             throw new CountryException(
                     "Nepodařilo se najít soubor "+filename+":"+e.getLocalizedMessage());
+        }
+    }
+
+    public void writeCountriesToFile(String filename) throws  CountryException {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
+
+//            for (Country country : countries) {
+////                writer.println(country); // vypíše všechny státy
+//            }
+
+            writer.println("Seřazení států, které mají základní sazbu z daně z přidané hodnoty vyšší než 20% \n" +
+                    "a nepoužívají speciální sazbu daně. (Řazení je sestupně podle výše základní sazby):");
+            Collections.sort(countries, Collections.reverseOrder());
+
+            for (Country country : countries) {
+                if (country.getFullRate() > 20 && !country.getSpecialRate()) {
+                    String line = country+" ("+country.getReducedRate()+" %)";
+                    writer.println(line);
+                }
+            }
+
+            writer.println("==============================");
+            writer.print("Sazba VAT 20 % nebo nižší nebo používají speciální sazbu: ");
+
+            for (Country country : countries) {
+                if (country.getFullRate() <= 20 || country.getSpecialRate()) {
+                    String line = country.getName()+", ";
+                    writer.print(line);
+                }
+            }
+
+        } catch (IOException e) {
+            throw new CountryException(
+                    "Nastala chyba při zápisu do souboru: "+e.getLocalizedMessage());
         }
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 public class Main {
     public static final String FILENAME = "vat-eu.csv";
 
+    public static final String OUTPUT_FILENAME = "vat-over-20.txt";
 
     public static void main(String[] args) {
         // načtení a přečtení souboru:
@@ -32,9 +33,9 @@ public class Main {
         List<Country> usedStates = new ArrayList<>();
         for (Country country : countries) {
             if (country.getFullRate() > 20 && !country.getSpecialRate()) {
-                String line = country+" ("+country.getReducedRate()+")";
+                String line = country+" ("+country.getReducedRate()+" %)";
                 System.out.println(line);
-                usedStates.add(country);
+                // usedStates.add(country);
             }
         }
         ///endregion
@@ -47,8 +48,17 @@ public class Main {
             if (country.getFullRate() <= 20 || country.getSpecialRate()) {
                 String line = country.getName()+", ";
                 System.out.print(line);
-                unusedStates.add(country);
+                // unusedStates.add(country);
             }
+        }
+        ///endregion
+
+        ///region - Zápis do souboru
+        try {
+            register.writeCountriesToFile(OUTPUT_FILENAME);
+
+        } catch (CountryException e) {
+            System.err.println(e.getLocalizedMessage());
         }
         ///endregion
     }
