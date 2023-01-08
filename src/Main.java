@@ -1,16 +1,16 @@
-import com.sun.jdi.BooleanType;
-import com.sun.jdi.Value;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static final String FILENAME = "vat-eu.csv";
 
     public static final String OUTPUT_FILENAME = "vat-over-20.txt";
 
-    public static void main(String[] args) {
+    public static Double rateAmount;
+
+    public static <rateAmount> void main(String[] args) {
         // načtení a přečtení souboru:
         RegisterOfCountries register = new RegisterOfCountries();
         try {
@@ -26,40 +26,59 @@ public class Main {
 //        System.out.println(countries);
 
         ///region - Seřazení států, které mají základní sazbu z daně z přidané hodnoty vyšší než 20% a nepoužívají speciální sazbu daně. (Řazení je sestupně podle výše základní sazby)
-        System.out.println("---------------------------\n"+
-                "Seřazení států, které mají základní sazbu z daně z přidané hodnoty vyšší než 20% \n" +
-                "a nepoužívají speciální sazbu daně. (Řazení je sestupně podle výše základní sazby):");
-        Collections.sort(countries, Collections.reverseOrder());
-        List<Country> usedStates = new ArrayList<>();
-        for (Country country : countries) {
-            if (country.getFullRate() > 20 && !country.getSpecialRate()) {
-                String line = country+" ("+country.getReducedRate()+" %)";
-                System.out.println(line);
-                // usedStates.add(country);
-            }
-        }
+//        System.out.println("---------------------------\n"+
+//                "Seřazení států, které mají základní sazbu z daně z přidané hodnoty vyšší než 20% \n" +
+//                "a nepoužívají speciální sazbu daně. (Řazení je sestupně podle výše základní sazby):");
+//        Collections.sort(countries, Collections.reverseOrder());
+//        List<Country> usedStates = new ArrayList<>();
+//        for (Country country : countries) {
+//            if (country.getFullRate() > 20 && !country.getSpecialRate()) {
+//                String line = country+" ("+country.getReducedRate()+" %)";
+//                System.out.println(line);
+//                // usedStates.add(country);
+//            }
+//        }
         ///endregion
 
-        ///region - Státy, které mají sazbu VAT 20 % nebo nižší nebo používají speciální sazbu
-        System.out.println("==============================");
-        System.out.print("Sazba VAT 20 % nebo nižší nebo používají speciální sazbu: ");
-        List<Country> unusedStates = new ArrayList<>();
+        System.out.println("---------------------------");
+        System.out.print("Zadej výši sazby DPH/VAT, podle které se má filtrovat: ");
+        Collections.sort(countries, Collections.reverseOrder());
+
+        Scanner scanner = new Scanner(System.in);
+        rateAmount = Double.valueOf(scanner.nextLine());
+
+        System.out.println("Zadal si hodnotu: "+rateAmount+" %");
+
+        System.out.println("---------------------------\n"+
+                "Seřazení států, které mají základní sazbu z daně z přidané hodnoty vyšší než "+rateAmount+" % \n" +
+                "a nepoužívají speciální sazbu daně. (Řazení je sestupně podle výše základní sazby):");
         for (Country country : countries) {
-            if (country.getFullRate() <= 20 || country.getSpecialRate()) {
+            if (country.getFullRate() > rateAmount && !country.getSpecialRate()) {
+                String line = country+" ("+country.getReducedRate()+" %)";
+                System.out.println(line);
+
+            }
+        }
+
+        ///region - Státy, které mají sazbu VAT 20 % nebo nižší nebo používají speciální sazbu
+        System.out.println("===============================");
+        System.out.print("Sazba VAT "+rateAmount+" % nebo nižší nebo používají speciální sazbu: ");
+        for (Country country : countries) {
+            if (country.getFullRate() <= rateAmount || country.getSpecialRate()) {
                 String line = country.getName()+", ";
                 System.out.print(line);
-                // unusedStates.add(country);
             }
         }
         ///endregion
 
         ///region - Zápis do souboru
         try {
-            register.writeCountriesToFile(OUTPUT_FILENAME);
+            register.writeCountriesToFile("vat-over-"+rateAmount+".txt");
 
         } catch (CountryException e) {
             System.err.println(e.getLocalizedMessage());
         }
         ///endregion
+
     }
 }

@@ -57,22 +57,21 @@ public class RegisterOfCountries {
 ////                writer.println(country); // vypíše všechny státy
 //            }
 
-            writer.println("Seřazení států, které mají základní sazbu z daně z přidané hodnoty vyšší než 20% \n" +
+            writer.println("Seřazení států, které mají základní sazbu z daně z přidané hodnoty vyšší než "+Main.rateAmount+" % \n" +
                     "a nepoužívají speciální sazbu daně. (Řazení je sestupně podle výše základní sazby):");
             Collections.sort(countries, Collections.reverseOrder());
-
             for (Country country : countries) {
-                if (country.getFullRate() > 20 && !country.getSpecialRate()) {
+                if (country.getFullRate() > Main.rateAmount && !country.getSpecialRate()) {
                     String line = country+" ("+country.getReducedRate()+" %)";
                     writer.println(line);
                 }
             }
 
             writer.println("==============================");
-            writer.print("Sazba VAT 20 % nebo nižší nebo používají speciální sazbu: ");
+            writer.print("Sazba VAT "+Main.rateAmount+" % nebo nižší nebo používají speciální sazbu: ");
 
             for (Country country : countries) {
-                if (country.getFullRate() <= 20 || country.getSpecialRate()) {
+                if (country.getFullRate() <= Main.rateAmount || country.getSpecialRate()) {
                     String line = country.getName()+", ";
                     writer.print(line);
                 }
