@@ -39,7 +39,7 @@ public class RegisterOfCountries {
                 state = countries[1];
                 fullRate = Double.parseDouble(countries[2]);
                 reducedRate = Double.parseDouble(countries[3]);
-                specialRate = Boolean.getBoolean(countries[4]);
+                specialRate = Boolean.valueOf(countries[4]);
 
                 newCountry = new Country(name, state, fullRate, reducedRate, specialRate);
                 addCountry(newCountry);
