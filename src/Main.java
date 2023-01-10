@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main {
     public static final String FILENAME = "vat-eu.csv";
 
-    public static final String OUTPUT_FILENAME = "vat-over-20.txt";
+//    public static final String OUTPUT_FILENAME = "vat-over-20.txt";
 
     public static Double rateAmount;
 
@@ -23,7 +23,6 @@ public class Main {
 
         System.out.println("Seznam států s hodnotou základní sazby daně:");
         countries.forEach(System.out::println);
-//        System.out.println(countries);
 
         ///region - Seřazení států, které mají základní sazbu z daně z přidané hodnoty vyšší než 20% a nepoužívají speciální sazbu daně. (Řazení je sestupně podle výše základní sazby)
 //        System.out.println("---------------------------\n"+
@@ -45,10 +44,17 @@ public class Main {
         Collections.sort(countries, Collections.reverseOrder());
 
         Scanner scanner = new Scanner(System.in);
-        rateAmount = Double.valueOf(scanner.nextLine());
+        String readString = scanner.nextLine();
+        if (readString.isEmpty()) {
+            rateAmount = 20.0;
+        } else {
+            System.out.print("Zadej hodnotu ještě jednou: ");
+            rateAmount = Double.valueOf(scanner.nextLine());
+        }
 
         System.out.println("Zadal si hodnotu: "+rateAmount+" %");
 
+        ///region - Státy, které mají sazbu VAT vyšší než rateAmount % a nepoužívají speciální sazbu
         System.out.println("---------------------------\n"+
                 "Seřazení států, které mají základní sazbu z daně z přidané hodnoty vyšší než "+rateAmount+" % \n" +
                 "a nepoužívají speciální sazbu daně. (Řazení je sestupně podle výše základní sazby):");
@@ -59,8 +65,9 @@ public class Main {
 
             }
         }
+        ///endregion
 
-        ///region - Státy, které mají sazbu VAT 20 % nebo nižší nebo používají speciální sazbu
+        ///region - Státy, které mají sazbu VAT rateAmount % nebo nižší nebo používají speciální sazbu
         System.out.println("===============================");
         System.out.print("Sazba VAT "+rateAmount+" % nebo nižší nebo používají speciální sazbu: ");
         for (Country country : countries) {
