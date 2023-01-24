@@ -50,8 +50,7 @@ public class Main {
         if (readString.isEmpty()) {
             rateAmount = 20.0;
         } else {
-            System.out.print("Zadej hodnotu ještě jednou: ");
-            rateAmount = Double.valueOf(scanner.nextLine());
+            rateAmount = Double.valueOf(readString);
         }
 
         System.out.println("Zadal si hodnotu: "+rateAmount+" %");
