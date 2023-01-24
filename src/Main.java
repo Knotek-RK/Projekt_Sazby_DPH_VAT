@@ -8,6 +8,8 @@ public class Main {
 
 //    public static final String OUTPUT_FILENAME = "vat-over-20.txt";
 
+    public static String separator = "\t";
+
     public static Double rateAmount;
 
     public static <rateAmount> void main(String[] args) {

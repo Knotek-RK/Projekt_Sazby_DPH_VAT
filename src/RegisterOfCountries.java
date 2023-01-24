@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class RegisterOfCountries {
-//    public static final String DELIMITER = "\t";
 
     private List<Country> countries = new ArrayList<>();
 
@@ -28,13 +27,12 @@ public class RegisterOfCountries {
         Boolean specialRate = null;
 
         int lineNumber = 0;
-        String separator = "\t";
 
         try (Scanner scanner = new Scanner(new BufferedReader(new FileReader(filename)))) {
             while (scanner.hasNextLine()) {
                 lineNumber++;
                 nextLine = scanner.nextLine();
-                countries = nextLine.split(separator);
+                countries = nextLine.split(Main.separator);
                 name = countries[0];
                 state = countries[1];
                 fullRate = Double.parseDouble(countries[2]);
@@ -47,6 +45,9 @@ public class RegisterOfCountries {
         } catch (FileNotFoundException e) {
             throw new CountryException(
                     "Nepodařilo se najít soubor "+filename+":"+e.getLocalizedMessage());
+        } catch (NumberFormatException e) {
+            throw new CountryException(
+                    "Číslo v souboru má špatný formát. ");
         }
     }
 
