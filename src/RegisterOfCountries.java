@@ -23,8 +23,10 @@ public class RegisterOfCountries {
         String name = null;
         String state = null;
         Double fullRate = null;
-        Double reducedRate = null;
+        String reducedRate = null;
         Boolean specialRate = null;
+
+//        reducedRate = reducedRate.replace(',', '.');
 
         int lineNumber = 0;
 
@@ -36,8 +38,10 @@ public class RegisterOfCountries {
                 name = countries[0];
                 state = countries[1];
                 fullRate = Double.parseDouble(countries[2]);
-                reducedRate = Double.parseDouble(countries[3]);
+                reducedRate = countries[3];
                 specialRate = Boolean.valueOf(countries[4]);
+
+                reducedRate = reducedRate.replace(',', '.');
 
                 newCountry = new Country(name, state, fullRate, reducedRate, specialRate);
                 addCountry(newCountry);
@@ -51,28 +55,28 @@ public class RegisterOfCountries {
         }
     }
 
-    public void writeCountriesToFile(String filename) throws  CountryException {
+    public void writeCountriesToFile(String filename, Double rateAmount) throws  CountryException {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
 
 //            for (Country country : countries) {
 ////                writer.println(country); // vypíše všechny státy
 //            }
 
-            writer.println("Seřazení států, které mají základní sazbu z daně z přidané hodnoty vyšší než "+Main.rateAmount+" % \n" +
+            writer.println("Seřazení států, které mají základní sazbu z daně z přidané hodnoty vyšší než "+rateAmount+" % \n" +
                     "a nepoužívají speciální sazbu daně. (Řazení je sestupně podle výše základní sazby):");
             Collections.sort(countries, Collections.reverseOrder());
             for (Country country : countries) {
-                if (country.getFullRate() > Main.rateAmount && !country.getSpecialRate()) {
+                if (country.getFullRate() > rateAmount && !country.getSpecialRate()) {
                     String line = country+" ("+country.getReducedRate()+" %)";
                     writer.println(line);
                 }
             }
 
             writer.println("==============================");
-            writer.print("Sazba VAT "+Main.rateAmount+" % nebo nižší nebo používají speciální sazbu: ");
+            writer.print("Sazba VAT "+rateAmount+" % nebo nižší nebo používají speciální sazbu: ");
 
             for (Country country : countries) {
-                if (country.getFullRate() <= Main.rateAmount || country.getSpecialRate()) {
+                if (country.getFullRate() <= rateAmount || country.getSpecialRate()) {
                     String line = country.getName()+", ";
                     writer.print(line);
                 }

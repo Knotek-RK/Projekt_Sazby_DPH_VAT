@@ -2,11 +2,11 @@ public class Country implements Comparable<Country> {
     String name;
     String state;
     Double fullRate;
-    Double reducedRate;
+    String reducedRate;
     Boolean specialRate;
 
     public Country(String name, String state, Double fullRate,
-                   Double reducedRate, Boolean specialRate) {
+                   String reducedRate, Boolean specialRate) {
         this.name = name;
         this.state = state;
         this.fullRate = fullRate;
@@ -38,11 +38,11 @@ public class Country implements Comparable<Country> {
         this.fullRate = fullRate;
     }
 
-    public Double getReducedRate() {
+    public String getReducedRate() {
         return reducedRate;
     }
 
-    public void setReducedRate(Double reducedRate) {
+    public void setReducedRate(String reducedRate) {
         this.reducedRate = reducedRate;
     }
 

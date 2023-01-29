@@ -12,7 +12,7 @@ public class Main {
 
     public static Double rateAmount;
 
-    public static <rateAmount> void main(String[] args) {
+    public static void main(String[] args) {
         // načtení a přečtení souboru:
         RegisterOfCountries register = new RegisterOfCountries();
         try {
@@ -81,7 +81,7 @@ public class Main {
 
         ///region - Zápis do souboru
         try {
-            register.writeCountriesToFile("vat-over-"+rateAmount+".txt");
+            register.writeCountriesToFile("vat-over-"+rateAmount+".txt", rateAmount);
 
         } catch (CountryException e) {
             System.err.println(e.getLocalizedMessage());
