@@ -26,8 +26,6 @@ public class RegisterOfCountries {
         String reducedRate = null;
         Boolean specialRate = null;
 
-//        reducedRate = reducedRate.replace(',', '.');
-
         int lineNumber = 0;
 
         try (Scanner scanner = new Scanner(new BufferedReader(new FileReader(filename)))) {
